@@ -3,15 +3,16 @@ import React, { useEffect, useState } from 'react'
 const EditUserForm = ({ currentUser, updateUser, setEditing }) => {
     const [userSelected, setUserSelected] = useState(currentUser)
 
+
+    useEffect(() => {
+        setUserSelected(currentUser)
+    }, [currentUser])
+
     function handleInputChange(event) {
         const { name, value } = event.target
 
         setUserSelected({ ...userSelected, [name]: value })
     }
-
-    useEffect(() => {
-        setUserSelected(currentUser)
-    }, [currentUser])
 
     return (
         <form
@@ -19,6 +20,7 @@ const EditUserForm = ({ currentUser, updateUser, setEditing }) => {
                 event.preventDefault();
 
                 updateUser(userSelected.id, userSelected);
+                setEditing(false);
             }}
         >
             <label htmlFor="name">Name</label>

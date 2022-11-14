@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import AddUserForm from './forms/AddUserForm';
 import EditUserForm from './forms/EditUserForm'
@@ -12,19 +12,25 @@ function App() {
     { id: 3, name: 'Maria Célia', username: 'maria123' },
   ]
 
-  const [users, setUsers] = useState(usersData);
+  const [users, setUsers] = useState([]);
 
   const [editing, setEditing] = useState(false);
   const initialFormState = { id: null, name: '', username: '' }
   const [currentUser, setCurrentUser] = useState(initialFormState);
 
   function addUser(user) {
-    user.id = users.length + 1
-    setUsers([...users, user])
+    user.id = users.length + 1;
+    const result = [...users, user]
+    setUsers(result);
+    Storage.set(result);
   }
 
   function deleteUser(id) {
-    return setUsers(users.filter((user) => user.id != id))
+    const result = users.filter((user) => user.id != id);
+
+    setUsers(result);
+    Storage.set(result);
+
   }
 
   function editRow(user) {
@@ -33,11 +39,38 @@ function App() {
     setCurrentUser({ id: user.id, name: user.name, username: user.username })
   }
 
-  function updateUser(id, updateUser) {
+  async function updateUser(id, updateUser) {
     setEditing(true);
 
-    setUsers(users.map((user) => (user.id === id ? updateUser : user)))
+    const result = users.map((user) => (user.id === id ? updateUser : user))
+
+    setUsers(result)
+    Storage.set(result);
   }
+
+  const Storage = {
+    get() {
+      const result = JSON.parse(localStorage.getItem('prosel:data'));
+      if (result) {
+        setUsers(result);
+      } else {
+        this.set(usersData);
+      }
+      return result;
+    },
+    set(data) {
+      localStorage.setItem('prosel:data',
+        JSON.stringify(data))
+    }
+  }
+
+  async function verifyConfig() {
+    await Storage.get();
+  }
+
+  useEffect(() => {
+    verifyConfig();
+  }, [])
 
   return (
     <div>
