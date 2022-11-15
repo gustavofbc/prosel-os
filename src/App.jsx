@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import './App.css'
 import AddUserForm from './forms/AddUserForm';
 import EditUserForm from './forms/EditUserForm'
 
 import UserTable from './tables/UserTable';
+import './styles/global.scss'
+import logo from './assets/logo.svg'
 
 function App() {
+  // Database seeds
   const usersData = [
     { id: 1, name: 'João Silva', username: 'joao123' },
     { id: 2, name: 'Pedro barros', username: 'barros' },
@@ -73,13 +75,12 @@ function App() {
   }, [])
 
   return (
-    <div>
-      <h1>CRUD App</h1>
-      <div>
+    <div className='container-body'>
+      <img src={logo} alt="CRUD logo" />
+      <div className='content-container'>
         {editing ?
           (
             <div>
-              <h2>Editing user</h2>
               <EditUserForm
                 currentUser={currentUser}
                 setEditing={setEditing}
@@ -90,13 +91,11 @@ function App() {
           :
           (
             <div>
-              <h2>Add user</h2>
               <AddUserForm addUser={addUser} />
             </div>
           )
         }
-        <div>
-          <h2>View Users</h2>
+        <div className='container-table'>
           <UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
         </div>
       </div>

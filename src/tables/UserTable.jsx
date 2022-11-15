@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
+import './styles.scss'
+import { MdEdit, MdDelete } from 'react-icons/md'
 
 function UserTable({ users, deleteUser, editRow }) {
     return (
-        <table>
-            <thead>
+        <table className='table'>
+            <thead className='tr'>
                 <tr>
                     <th>Name</th>
                     <th>Username</th>
@@ -17,16 +19,18 @@ function UserTable({ users, deleteUser, editRow }) {
                             <tr key={user.id}>
                                 <td>{user.name}</td>
                                 <td>{user.username}</td>
-                                <td>
-                                    <button onClick={() => editRow(user)}>Edit</button>
-                                    <button onClick={() => deleteUser(user.id)}>Delete</button>
+                                <td className='container-actions'>
+                                    <button className='icon edit' onClick={() => editRow(user)}><MdEdit size={24} /></button>
+                                    <button className='icon delete' onClick={() => deleteUser(user.id)}><MdDelete size={24} /></button>
                                 </td>
                             </tr>
                         ))
                         :
                         (
-                            <tr>
-                                <td>Sem usuários registrados</td>
+                            <tr className='no-results'>
+                                <td></td>
+                                <td className='no-results-text'>No registered users</td>
+                                <td></td>
                             </tr>
                         )
                 }
