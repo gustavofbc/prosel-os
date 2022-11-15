@@ -1,8 +1,8 @@
-# prosel-os
+# CRUD
 
 <br/>
 <div align="center">
-  <img alt="CRUD app logo" src=""/>
+  <img alt="CRUD logo" src="https://github.com/gustavofbc/prosel-os/blob/main/src/assets/logo.svg"/>
 </div>
 <br/>
 
